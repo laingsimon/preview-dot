@@ -8,20 +8,16 @@ namespace PreviewDot
 	internal class PreviewHandlerForm : Form
 	{
 		private readonly PreviewContext _context;
-		private readonly ISizeExtractor _sizeExtractor;
 		private readonly IPreviewGenerator _previewGenerator;
 
-		public PreviewHandlerForm(PreviewContext context, ISizeExtractor sizeExtractor, IPreviewGenerator previewGenerator)
+		public PreviewHandlerForm(PreviewContext context, IPreviewGenerator previewGenerator)
 		{
 			if (context == null)
 				throw new ArgumentNullException("context");
-			if (sizeExtractor == null)
-				throw new ArgumentNullException("sizeExtractor");
 			if (previewGenerator == null)
 				throw new ArgumentNullException("previewGenerator");
 
 			_context = context;
-			_sizeExtractor = sizeExtractor;
 			_previewGenerator = previewGenerator;
 			context.PreviewRequired += _PreviewRequired;
 			context.ViewPortChanged += _ViewPortChanged;
@@ -65,15 +61,9 @@ namespace PreviewDot
 				_UpdateSize();
 				_Reset();
 
-				if (!_context.FileStream.IsDrawing())
-				{
-					_ReplaceControl(new XmlControl(_context.FileStream.ReadAsString()));
-					return;
-				}
-
 				var drawing = new Drawing(_context.FileStream, _context.FileDetail);
 
-				_context.DrawingSize = await drawing.GetSize(_sizeExtractor, _context.TokenSource.Token);
+				_context.DrawingSize = new Size(1000, 1000);
 				var previewSize = _context.GetPreviewSize();
 				var preview = await drawing.GeneratePreview(_previewGenerator, previewSize, _context.TokenSource.Token);
 
@@ -85,8 +75,6 @@ namespace PreviewDot
 				}
 				catch (Exception exc)
 				{
-					CachingPreviewGenerator.EvictFromCache(_context.FileDetail);
-
 					using (var reader = new StreamReader(preview))
 					{
 						var responseBody = reader.ReadToEnd();

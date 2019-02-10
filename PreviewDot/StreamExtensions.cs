@@ -26,31 +26,7 @@ namespace PreviewDot
 			return new MemoryStream(buffer, false);
 		}
 
-		public static bool IsDrawing(this Stream stream)
-		{
-			if (stream == null)
-				throw new ArgumentNullException("stream");
-			if (!stream.CanRead)
-				throw new ArgumentException("Stream must be readable", "stream");
-			if (!stream.CanSeek)
-				throw new InvalidOperationException("This operation would corrupt the stream");
-
-			try
-			{
-				var reader = new StreamReader(stream);
-				var headerChars = new char[54];
-				reader.Read(headerChars, 0, headerChars.Length);
-				var headerText = new string(headerChars);
-
-				return headerText.Contains("<mxfile ") || headerText.Contains("<mxGraphModel ");
-			}
-			finally
-			{
-				stream.Position = 0;
-			}
-		}
-
-		public static string ReadAsString(this Stream stream)
+    	public static string ReadAsString(this Stream stream)
 		{
 			if (stream == null)
 				throw new ArgumentNullException("stream");

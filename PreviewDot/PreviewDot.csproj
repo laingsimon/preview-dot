@@ -49,12 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachingPreviewGenerator.cs" />
-    <Compile Include="CachingSizeExtractor.cs" />
     <Compile Include="ComInterop\WIA.cs" />
     <Compile Include="FileDetail.cs" />
-    <Compile Include="UrlEncodingStream.cs" />
-    <Compile Include="Base64Stream.cs" />
     <Compile Include="ComInterop\COLORREF.cs" />
     <Compile Include="ComInterop\IInitializeWithFile.cs" />
     <Compile Include="ComInterop\IInitializeWithStream.cs" />
@@ -66,7 +62,6 @@
     <Compile Include="ComInterop\LOGFONT.cs" />
     <Compile Include="ComInterop\MSG.cs" />
     <Compile Include="ComInterop\RECT.cs" />
-    <Compile Include="CompressedXmlStream.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="ErrorControl.cs">
       <SubType>UserControl</SubType>
@@ -74,8 +69,8 @@
     <Compile Include="ErrorControl.Designer.cs">
       <DependentUpon>ErrorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="HttpPreviewGenerator.cs" />
-    <Compile Include="HttpPreviewGeneratorFactory.cs" />
+    <Compile Include="PreviewGenerator.cs" />
+    <Compile Include="PreviewGeneratorFactory.cs" />
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -105,15 +100,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SizeExtractor.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="WinApi.cs" />
-    <Compile Include="XmlControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="XmlControl.Designer.cs">
-      <DependentUpon>XmlControl.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -144,9 +132,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XmlControl.resx">
-      <DependentUpon>XmlControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

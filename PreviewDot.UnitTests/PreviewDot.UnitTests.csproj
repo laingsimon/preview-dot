@@ -48,13 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base64Stream.cs" />
-    <Compile Include="CompressedXmlStreamTests.cs" />
     <Compile Include="InstallerTests.cs" />
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SizeExtractorTests.cs" />
-    <Compile Include="UrlEncodingStreamTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

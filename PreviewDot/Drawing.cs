@@ -22,14 +22,6 @@ namespace PreviewDot
 			_fileDetail = fileDetail;
 		}
 
-		public async Task<Size?> GetSize(ISizeExtractor sizeExtractor, CancellationToken token)
-		{
-			if (sizeExtractor == null)
-				throw new ArgumentNullException("sizeExtractor");
-
-			return await sizeExtractor.ExtractSize(_drawingContent, _fileDetail, token);
-		}
-
 		public async Task<Stream> GeneratePreview(IPreviewGenerator generator, Size previewSize, CancellationToken token)
 		{
 			if (generator == null)

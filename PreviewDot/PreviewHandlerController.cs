@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
-using PreviewIo.ComInterop;
+using PreviewDot.ComInterop;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
 namespace PreviewDot
@@ -31,11 +31,10 @@ namespace PreviewDot
 
 				_context = new PreviewContext();
 
-				var previewGeneratorFactory = new HttpPreviewGeneratorFactory(_context.Settings);
+				var previewGeneratorFactory = new PreviewGeneratorFactory(_context.Settings);
 				var generator = previewGeneratorFactory.Create();
-				var sizeExtractor = new CachingSizeExtractor(new SizeExtractor());
 
-				_previewForm = new PreviewHandlerForm(_context, sizeExtractor, generator);
+				_previewForm = new PreviewHandlerForm(_context, generator);
 				_previewForm.Handle.GetHashCode(); //initialse the form
 			}
 			catch (Exception exc)
@@ -174,7 +173,7 @@ namespace PreviewDot
 			if (type != typeof(PreviewHandlerController))
 				return;
 
-			Installer.RegisterPreviewHandler("draw.io drawing previewer", type);
+			Installer.RegisterPreviewHandler("DOT format diagram previewer", type);
 		}
 
 		[ComUnregisterFunction]

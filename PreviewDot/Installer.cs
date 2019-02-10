@@ -61,10 +61,10 @@ namespace PreviewDot
 				idKey.SetValue("AppID", "{6d2b5079-2f0b-48dd-ab7f-97cec514d30b}", RegistryValueKind.String); //see https://msdn.microsoft.com/en-us/library/windows/desktop/cc144144(v=vs.85).aspx
 			}
 
-			Trace.WriteLine("Registering extension '.xml' with previewer '" + previewTypeClassId + "'");
+			Trace.WriteLine("Registering extension '.gv' with previewer '" + previewTypeClassId + "'");
 
 			// Set preview handler for specific extension
-			using (var extensionKey = Registry.ClassesRoot.CreateSubKey(".xml"))
+			using (var extensionKey = Registry.ClassesRoot.CreateSubKey(".gv"))
 			using (var shellexKey = extensionKey.CreateSubKey("shellex"))
 			using (var previewKey = shellexKey.CreateSubKey(_previewHandlerClassId))
 			{
@@ -76,8 +76,8 @@ namespace PreviewDot
 		{
 			var previewTypeClassId = previewerType.GUID.ToString("B");
 
-			Trace.WriteLine("Unregistering extension '.xml' with previewer '" + previewTypeClassId + "'");
-			using (var shellexKey = Registry.ClassesRoot.OpenSubKey(".xml\\shellex", true))
+			Trace.WriteLine("Unregistering extension '.gv' with previewer '" + previewTypeClassId + "'");
+			using (var shellexKey = Registry.ClassesRoot.OpenSubKey(".gv\\shellex", true))
 			{
 				try { shellexKey.DeleteSubKey(_previewHandlerClassId); }
 				catch { }

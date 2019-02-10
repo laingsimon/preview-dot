@@ -38,7 +38,7 @@
 			// picLoading
 			// 
 			this.picLoading.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.picLoading.Image = global::PreviewIo.Properties.Resources.ajax_loader;
+			this.picLoading.Image = global::PreviewDot.Properties.Resources.ajax_loader;
 			this.picLoading.Location = new System.Drawing.Point(0, 41);
 			this.picLoading.Margin = new System.Windows.Forms.Padding(0);
 			this.picLoading.Name = "picLoading";
