@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Drawing.Imaging;
 using System.Reflection;
 
@@ -8,11 +9,17 @@ namespace PreviewDot
 	{
 		public int UpScaleForPrint { get; set; }
 		public ImageFormat RenderingFormat { get; set; }
+        public string DotApplicationPath { get; set; }
 
 		public PreviewSettings()
 		{
 			UpScaleForPrint = _ReadInt(ConfigurationManager.AppSettings["upScale"], 4);
 			RenderingFormat = _ReadImageFormat(ConfigurationManager.AppSettings["format"], ImageFormat.Png);
+            DotApplicationPath = ConfigurationManager.AppSettings["dotPath"];
+            if (String.IsNullOrEmpty(DotApplicationPath))
+            {
+                DotApplicationPath = @"c:\Program Files (x86)\Graphviz2.38\bin\dot.exe";
+            }
 		}
 
 		private static ImageFormat _ReadImageFormat(string value, ImageFormat defaultFormat)

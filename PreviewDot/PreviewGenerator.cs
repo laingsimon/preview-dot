@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -12,7 +11,6 @@ namespace PreviewDot
     internal class PreviewGenerator : IPreviewGenerator
 	{
 		private readonly PreviewSettings _settings;
-        private static readonly string _applicationDirectory = @"c:\Program Files (x86)\Graphviz2.38\bin";
 
 		public PreviewGenerator(PreviewSettings settings)
 		{
@@ -35,13 +33,13 @@ namespace PreviewDot
             {
                 StartInfo =
                 {
-                    FileName = Path.Combine(_applicationDirectory, "dot.exe"),
+                    FileName = Path.Combine(_settings.DotApplicationPath),
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    Arguments = "-Tpng"
+                    Arguments = "-T" + _settings.RenderingFormat.ToString().ToLower()
                 },
                 EnableRaisingEvents = true
             };
@@ -107,7 +105,7 @@ namespace PreviewDot
                 }
 
                 var outputStream = new MemoryStream();
-                image.Save(outputStream, ImageFormat.Png);
+                image.Save(outputStream, _settings.RenderingFormat);
                 outputStream.Seek(0, SeekOrigin.Begin);
                 return outputStream;
             }
