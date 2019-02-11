@@ -105,7 +105,9 @@ namespace PreviewDot
 		{
 			try
 			{
-				return Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".png");
+				var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".png");
+                File.WriteAllBytes(path, new byte[0]);
+                return path;
 			}
 			catch (Exception exc)
 			{
