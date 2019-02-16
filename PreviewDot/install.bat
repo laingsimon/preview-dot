@@ -11,12 +11,18 @@
 @xcopy "%source%*.*" "%installDir%\" /Y
 
 @if exist "%netframework32%regasm.exe" (
-	@call "%netframework32%regasm.exe" "%installDir%\PreviewDot.dll" /codebase /nologo /silent
+	@call "%netframework32%regasm.exe" "%installDir%\PreviewDot.dll" /codebase /nologo
+	goto registered
 )
 @if exist "%netframework64%regasm.exe" (
-	@call "%netframework64%regasm.exe" "%installDir%\PreviewDot.dll" /codebase /nologo /silent
+	@call "%netframework64%regasm.exe" "%installDir%\PreviewDot.dll" /codebase /nologo
+	goto registered
 )
 
+echo Unable to install
+goto eof
+
+:registered
 @if "%errorlevel%"=="0" @echo Installed successfully
 @goto eof
 

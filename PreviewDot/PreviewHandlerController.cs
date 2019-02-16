@@ -9,8 +9,8 @@ using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
 namespace PreviewDot
 {
-	[ProgId("PreviewIo.PreviewHandlerController")]
-	[Guid("7A69DD75-FED4-4597-B35D-0765FCB8AD89")]
+	[ProgId("PreviewDot.PreviewHandlerController")]
+	[Guid(Installer.ControllerId)]
 	[ClassInterface(ClassInterfaceType.None)]
 	[ComVisible(true)]
 	public class PreviewHandlerController : IPreviewHandler, IOleWindow, IObjectWithSite, IInitializeWithStream

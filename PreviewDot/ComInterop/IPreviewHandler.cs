@@ -5,7 +5,7 @@ namespace PreviewDot.ComInterop
 {
 	[ComImport]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("8895b1c6-b41f-4c1c-a562-0d564250836f")]
+	[Guid(Installer.PreviewHandlerClassId)]
 	interface IPreviewHandler
 	{
 		void SetWindow(IntPtr hwnd, ref RECT rect);

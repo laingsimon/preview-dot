@@ -15,11 +15,13 @@ namespace PreviewDot
 	// ReSharper restore ClassNeverInstantiated.Global
 	// ReSharper restore UnusedMember.Global
 	{
-		public const string ApplicationId = "b7ae83a1-5834-4ca5-b52e-84682fe187ba";
-		private const string _previewHandlerClassId = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
-		private const string _componentClassId = "{47D4602D-23A5-44F4-89AA-4634334830E6}";
+        public const string ControllerId = "15A2A697-642D-44DA-8D6A-972E70F4BEC0";
+		public const string ApplicationId = "4F0CA447-5234-47F2-917A-38F1F9D34EF9";
+		public const string PreviewHandlerClassId = "8895b1c6-b41f-4c1c-a562-0d564250836f"; //windows CLSID for a preview handler
 
-		public override void Install(IDictionary stateSaver)
+        private const string _componentClassId = "{F4334065-4EB4-4516-84FA-82A6766E3CF4}";
+
+        public override void Install(IDictionary stateSaver)
 		{
 			try
 			{
@@ -66,7 +68,7 @@ namespace PreviewDot
 			// Set preview handler for specific extension
 			using (var extensionKey = Registry.ClassesRoot.CreateSubKey(".gv"))
 			using (var shellexKey = extensionKey.CreateSubKey("shellex"))
-			using (var previewKey = shellexKey.CreateSubKey(_previewHandlerClassId))
+			using (var previewKey = shellexKey.CreateSubKey("{" + PreviewHandlerClassId + "}"))
 			{
 				previewKey.SetValue(null, previewTypeClassId, RegistryValueKind.String);
 			}
@@ -79,7 +81,7 @@ namespace PreviewDot
 			Trace.WriteLine("Unregistering extension '.gv' with previewer '" + previewTypeClassId + "'");
 			using (var shellexKey = Registry.ClassesRoot.OpenSubKey(".gv\\shellex", true))
 			{
-				try { shellexKey.DeleteSubKey(_previewHandlerClassId); }
+				try { shellexKey.DeleteSubKey("{" + PreviewHandlerClassId + "}"); }
 				catch { }
 			}
 
