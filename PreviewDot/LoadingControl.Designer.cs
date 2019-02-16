@@ -70,7 +70,7 @@
 			this.lblPreviewIo.Name = "lblPreviewIo";
 			this.lblPreviewIo.Size = new System.Drawing.Size(144, 23);
 			this.lblPreviewIo.TabIndex = 2;
-			this.lblPreviewIo.Text = "Preview.io, Loading Preview...";
+			this.lblPreviewIo.Text = "Preview.dot, Loading Preview...";
 			this.lblPreviewIo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// LoadingControl
