@@ -1,13 +1,13 @@
 # preview-dot
 A drawing previewer for [DOT format](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) drawings in Windows Explorer and Outlook's preview panes.
 
-![](screenshot.png)
+![](https://github.com/laingsimon/preview-dot/blob/master/Screenshot.png)
 
 ### Installation & Uninstallation
 #### System requirements
 - [x] Microsoft Windows 7 or later (32bit or 64bit)
 - [x] Microsoft .net Framework 4.6 installed (**prior** to running `install.bat`), [available here](https://www.microsoft.com/en-gb/download/details.aspx?id=48130)
-- [x] GraphViz installed, [available here]((https://graphviz.gitlab.io/_pages/Download/Download_windows.html))
+- [x] GraphViz installed, [available here](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
 
 * To install 
    * download the [latest release](https://github.com/laingsimon/preview-dot/releases)
