@@ -105,12 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="install.bat">
+    <Content Include="register.vbs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="uninstall.bat">
+    </Content>
+    <Content Include="unregister.vbs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="resources\ajax-loader.gif" />

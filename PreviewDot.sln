@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreviewDot", "PreviewDot\Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreviewDot.UnitTests", "PreviewDot.UnitTests\PreviewDot.UnitTests.csproj", "{00AB3D5C-EB29-4B90-B38B-542C710926EC}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PreviewDot.Installer", "PreviewDot.Installer\PreviewDot.Installer.vdproj", "{544DF4CE-3DF7-4B85-80EA-70E4AFB68764}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,9 @@ Global
 		{00AB3D5C-EB29-4B90-B38B-542C710926EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00AB3D5C-EB29-4B90-B38B-542C710926EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00AB3D5C-EB29-4B90-B38B-542C710926EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544DF4CE-3DF7-4B85-80EA-70E4AFB68764}.Debug|Any CPU.ActiveCfg = Debug
+		{544DF4CE-3DF7-4B85-80EA-70E4AFB68764}.Debug|Any CPU.Build.0 = Debug
+		{544DF4CE-3DF7-4B85-80EA-70E4AFB68764}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
