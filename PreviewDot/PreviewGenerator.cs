@@ -20,7 +20,7 @@ namespace PreviewDot
 			_settings = settings;
 		}
 
-        public Task<Stream> GeneratePreview(Stream drawingContent, FileDetail fileDetail, Size previewSize, CancellationToken token)
+        public async Task<Stream> GeneratePreview(Stream drawingContent, FileDetail fileDetail, Size previewSize, CancellationToken token)
         {
             if (drawingContent == null)
                 throw new ArgumentNullException("drawingContent");
@@ -58,15 +58,7 @@ namespace PreviewDot
 
                 baseStream = process.StandardOutput.BaseStream;
 
-                using (var reader = new StreamReader(drawingContent))
-                {
-                    String line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        process.StandardInput.WriteLine(line);
-                    }
-                }
-                process.StandardInput.Flush();
+                await drawingContent.CopyToAsync(process.StandardInput.BaseStream);
                 process.StandardInput.BaseStream.Close();
             }
 
@@ -79,11 +71,11 @@ namespace PreviewDot
             {
                 errorStream.Seek(0, SeekOrigin.Begin);
                 var message = new StreamReader(errorStream).ReadToEnd();
-                return Task.FromResult(GetStreamOfErrorMessage(message));
+                return GetStreamOfErrorMessage(message);
             }
 
             outputStream.Seek(0, SeekOrigin.Begin);
-            return Task.FromResult<Stream>(outputStream);
+            return outputStream;
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
