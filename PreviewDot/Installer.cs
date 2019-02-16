@@ -61,6 +61,8 @@ namespace PreviewDot
 			{
 				idKey.SetValue("DisplayName", name, RegistryValueKind.String);
 				idKey.SetValue("AppID", "{6d2b5079-2f0b-48dd-ab7f-97cec514d30b}", RegistryValueKind.String); //see https://msdn.microsoft.com/en-us/library/windows/desktop/cc144144(v=vs.85).aspx
+
+                idKey.SetValue("DisableLowILProcessIsolation", 1, RegistryValueKind.DWord);
 			}
 
 			Trace.WriteLine("Registering extension '.gv' with previewer '" + previewTypeClassId + "'");
