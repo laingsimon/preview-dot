@@ -327,5 +327,10 @@ namespace PreviewDot
 			itmZoomIn.Enabled = zoomStart < _maxZoom;
 			itmZoomOut.Enabled = zoomStart > _minZoom;
 		}
-	}
+
+        private void itmCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(_originalPreview);
+        }
+    }
 }
