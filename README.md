@@ -6,7 +6,7 @@ A drawing previewer for [DOT format](https://en.wikipedia.org/wiki/DOT_(graph_de
 ### Installation & Uninstallation
 #### System requirements
 - [x] Microsoft Windows 7 or later (32bit or 64bit)
-- [x] Microsoft .net Framework 4.6 installed (**prior** to running `install.bat`), [available here](https://www.microsoft.com/en-gb/download/details.aspx?id=48130)
+- [x] Microsoft .net Framework 4.6 installed, [available here](https://www.microsoft.com/en-gb/download/details.aspx?id=48130)
 - [x] GraphViz installed, [available here](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
 
 * To install 
