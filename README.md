@@ -11,11 +11,10 @@ A drawing previewer for [DOT format](https://en.wikipedia.org/wiki/DOT_(graph_de
 
 * To install 
    * download the [latest release](https://github.com/laingsimon/preview-dot/releases)
-   * extract the contents and run `install.bat` (right click and choose "Run as an administrator")
+   * run PreviewDot.msi
    * You must also install GraphViz, [downloads available here](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
 * To uninstall 
-   * Open the the folder `c:\Program Files\PreviewDot`
-   * run `uninstall.bat` (right click and choose "Run as an administrator")
+   * Remove the program from the windows Programs ans Features control panel
    * Uninstall GraphViz manually
 
 ### Features
