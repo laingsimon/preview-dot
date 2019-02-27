@@ -47,7 +47,10 @@ namespace PreviewDot
 		{
 			try
 			{
-				_previewForm.Reset();
+                if (_previewForm == null)
+                    return;
+
+                _previewForm.Reset();
 				_fileDetail = _GetPreviewFileDetail(pstream);
 				_previewFileStream = pstream.ToStream().ToMemoryStream();
 			}
@@ -71,6 +74,9 @@ namespace PreviewDot
 		{
 			try
 			{
+                if (_previewForm == null)
+                    return;
+
 				_previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
 
 				_previewWindowHandle = hwnd;
@@ -87,7 +93,10 @@ namespace PreviewDot
 		{
 			try
 			{
-				_previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
+                if (_previewForm == null)
+                    return;
+
+                _previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
 
 				_context.OnViewPortChanged(rect.ToRectangle());
 
@@ -103,7 +112,10 @@ namespace PreviewDot
 		{
 			try
 			{
-				_previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
+                if (_previewForm == null)
+                    return;
+
+                _previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
 
 				if (_previewFileStream != Stream.Null)
 				{
@@ -123,18 +135,18 @@ namespace PreviewDot
 
 		public void Unload()
 		{
-			_previewForm.Invoke(new MethodInvoker(() => _previewForm.Reset()));
+			_previewForm?.Invoke(new MethodInvoker(() => _previewForm.Reset()));
 		}
 
 		public void SetFocus()
 		{
-			_previewForm.Invoke(new MethodInvoker(() => _previewForm.Focus()));
+			_previewForm?.Invoke(new MethodInvoker(() => _previewForm.Focus()));
 		}
 
 		public void QueryFocus(out IntPtr phwnd)
 		{
 			var focusResult = IntPtr.Zero;
-			_previewForm.Invoke(new MethodInvoker(() => WinApi.GetFocus()));
+			_previewForm?.Invoke(new MethodInvoker(() => WinApi.GetFocus()));
 
 			phwnd = focusResult;
 		}
@@ -149,7 +161,7 @@ namespace PreviewDot
 
 		public void GetWindow(out IntPtr phwnd)
 		{
-			phwnd = _previewForm.Handle;
+			phwnd = _previewForm?.Handle ?? IntPtr.Zero;
 		}
 
 		public void ContextSensitiveHelp(bool fEnterMode)
