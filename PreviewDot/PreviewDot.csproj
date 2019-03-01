@@ -152,7 +152,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent Condition="'$(Configuration)' == 'Debug'">
+		"c:\Windows\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe" "$(TargetDir)PreviewDot.dll" /codebase
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
