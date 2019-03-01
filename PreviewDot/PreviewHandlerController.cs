@@ -153,8 +153,19 @@ namespace PreviewDot
 
 		uint IPreviewHandler.TranslateAccelerator(ref MSG pmsg)
 		{
-			if (_frame != null)
-				return _frame.TranslateAccelerator(ref pmsg);
+			if (_previewForm != null && _frame != null)
+			{
+				var msg = new Message
+				{
+					HWnd = pmsg.hwnd,
+					LParam = pmsg.lParam,
+					Msg = pmsg.message,
+					WParam = pmsg.wParam
+				};
+
+				if (_previewForm.PreProcessMessage(ref msg))
+					return _frame.TranslateAccelerator(ref pmsg);
+			}
 
 			return WinApi.S_FALSE;
 		}
