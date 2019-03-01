@@ -20,7 +20,7 @@ namespace PreviewDot
 			DotApplicationPath = ConfigurationManager.AppSettings["dotPath"];
 			if (string.IsNullOrEmpty(DotApplicationPath))
 			{
-				DotApplicationPath = @"c:\Program Files (x86)\Graphviz2.38\bin\dot.exe";
+				DotApplicationPath = Path.Combine(InstallDirectory, @"external\dot.exe");
 			}
 		}
 
