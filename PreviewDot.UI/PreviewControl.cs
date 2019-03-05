@@ -4,9 +4,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using PreviewDot.ComInterop;
+using PreviewDot.Common;
 
-namespace PreviewDot
+namespace PreviewDot.UI
 {
 	internal partial class PreviewControl : UserControl
 	{

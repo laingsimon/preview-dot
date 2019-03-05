@@ -1,8 +1,10 @@
 ﻿using System;
+using PreviewDot.Common;
 
-namespace PreviewDot
+namespace PreviewDot.UI
 {
-    internal class PreviewGeneratorFactory
+	[Serializable]
+	public class PreviewGeneratorFactory : MarshalByRefObject, IPreviewGeneratorFactory
 	{
 		private readonly PreviewSettings _settings;
 

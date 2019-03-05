@@ -1,7 +1,8 @@
 ﻿using System;
 
-namespace PreviewDot
+namespace PreviewDot.Common
 {
+	[Serializable]
 	public class FileDetail
 	{
 		public string FileName { get; }

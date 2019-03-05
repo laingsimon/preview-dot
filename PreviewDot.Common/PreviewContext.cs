@@ -3,9 +3,9 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 
-namespace PreviewDot
+namespace PreviewDot.Common
 {
-	internal class PreviewContext
+	public class PreviewContext : MarshalByRefObject
 	{
 		public event EventHandler ViewPortChanged;
 		public event EventHandler PreviewRequired;
@@ -42,7 +42,7 @@ namespace PreviewDot
 
 			TokenSource.Cancel();
 			TokenSource = new CancellationTokenSource();
-			FileStream = stream;
+			FileStream = new MemoryStream(stream.ToMemoryStream().ToArray()); //to ensure we're not dealing with a transparent proxy, which cannot handle cross-domain async actions, e.g. CopyToAsync()
 			FileDetail = fileDetail;
 			DisplayPreview = true;
 			PreviewRequired?.Invoke(this, EventArgs.Empty);

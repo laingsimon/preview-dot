@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using PreviewDot.ComInterop;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
+using PreviewDot.Common;
 
 namespace PreviewDot
 {
@@ -13,33 +14,56 @@ namespace PreviewDot
 	[Guid(Installer.ControllerId)]
 	[ClassInterface(ClassInterfaceType.None)]
 	[ComVisible(true)]
-	public class PreviewHandlerController : IPreviewHandler, IOleWindow, IObjectWithSite, IInitializeWithStream
+	public class PreviewHandlerController : MarshalByRefObject, IPreviewHandler, IOleWindow, IObjectWithSite, IInitializeWithStream
 	{
-		private readonly PreviewContext _context;
-		private readonly PreviewHandlerForm _previewForm;
+		private readonly TypeLoader _loader;
+
+		private IPreviewHandlerForm _previewForm;
 
 		private IntPtr _previewWindowHandle;
 		private Stream _previewFileStream = Stream.Null;
 		private IPreviewHandlerFrame _frame;
 		private FileDetail _fileDetail;
+		private PreviewContext _context;
 
 		public PreviewHandlerController()
 		{
 			try
 			{
 				Logging.InstallListeners();
+				_loader = new TypeLoader(Reinitialise);
 
-				_context = new PreviewContext();
-
-				var previewGeneratorFactory = new PreviewGeneratorFactory(_context.Settings);
-				var generator = previewGeneratorFactory.Create();
-
-				_previewForm = new PreviewHandlerForm(_context, generator);
-				_previewForm.Handle.GetHashCode(); //initialse the form
+				Initialise();
 			}
 			catch (Exception exc)
 			{
 				Trace.TraceError("PreviewHandlerController.ctor: {0}", exc);
+			}
+		}
+
+		private void Initialise()
+		{
+			_previewForm = _loader.Load<IPreviewHandlerForm>();
+			_previewForm.Handle.GetHashCode(); //initialse the form
+			_context = _previewForm.GetContext();
+		}
+
+		private void Reinitialise()
+		{
+			_previewForm = null;
+			_context = null;
+
+			Initialise();
+
+			if (_previewWindowHandle != null)
+			{
+				_previewForm.Invoke(new MethodInvoker(() => _previewForm.Show())); //not sure if this needs to be before SetParent?
+				WinApi.SetParent(_previewForm.Handle, _previewWindowHandle);
+
+				if (_previewFileStream != Stream.Null && _fileDetail != null)
+				{
+					_context.OnPreviewRequired(_previewFileStream, _fileDetail);
+				}
 			}
 		}
 
@@ -48,9 +72,12 @@ namespace PreviewDot
 			try
 			{
                 if (_previewForm == null)
-                    return;
+                    Initialise();
 
-                _previewForm.Reset();
+				if (_previewForm == null)
+					return;
+
+				_previewForm.Reset();
 				_fileDetail = _GetPreviewFileDetail(pstream);
 				_previewFileStream = pstream.ToStream().ToMemoryStream();
 			}

@@ -1,22 +1,23 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 
-namespace PreviewDot
+namespace PreviewDot.Common
 {
-	internal class PreviewSettings
+	public class PreviewSettings : MarshalByRefObject
 	{
 		public static readonly string InstallDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 		public int UpScaleForPrint { get; set; }
-		public ImageFormat RenderingFormat { get; set; }
+		public string RenderingFormat { get; set; }
 		public string DotApplicationPath { get; set; }
 
 		public PreviewSettings()
 		{
 			UpScaleForPrint = _ReadInt(ConfigurationManager.AppSettings["upScale"], 4);
-			RenderingFormat = _ReadImageFormat(ConfigurationManager.AppSettings["format"], ImageFormat.Png);
+			RenderingFormat = _ReadImageFormat(ConfigurationManager.AppSettings["format"], ImageFormat.Png).ToString();
 			DotApplicationPath = ConfigurationManager.AppSettings["dotPath"];
 			if (string.IsNullOrEmpty(DotApplicationPath))
 			{

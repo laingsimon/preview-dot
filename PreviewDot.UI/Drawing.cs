@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PreviewDot.Common;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PreviewDot
+namespace PreviewDot.UI
 {
 	internal class Drawing
 	{

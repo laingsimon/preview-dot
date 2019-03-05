@@ -1,21 +1,19 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using PreviewDot;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PreviewDot")]
-[assembly: AssemblyDescription("Preview Handler for DOT format drawings")]
+[assembly: AssemblyTitle("PreviewDot.UI")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PreviewDot")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("PreviewDot.UI")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("PreviewDot.UnitTests")]
-[assembly: InternalsVisibleTo("PreviewDot.TestLauncher")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -23,7 +21,7 @@ using PreviewDot;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid(Installer.ApplicationId)]
+[assembly: Guid("acc0830f-2132-48da-b0f8-f2dfe12105b0")]
 
 // Version information for an assembly consists of the following four values:
 //

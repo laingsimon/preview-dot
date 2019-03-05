@@ -3,9 +3,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PreviewDot
+namespace PreviewDot.Common
 {
-	internal interface IPreviewGenerator
+	public interface IPreviewGenerator
 	{
 		Task<Stream> GeneratePreview(Stream drawingContent, FileDetail fileDetail, Size previewSize, CancellationToken token);
 	}

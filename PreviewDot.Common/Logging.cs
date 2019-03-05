@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace PreviewDot
+namespace PreviewDot.Common
 {
 	public static class Logging
 	{

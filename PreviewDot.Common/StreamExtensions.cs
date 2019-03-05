@@ -2,9 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace PreviewDot
+namespace PreviewDot.Common
 {
-	internal static class StreamExtensions
+	public static class StreamExtensions
 	{
 		public static Stream ToStream(this IStream stream)
 		{

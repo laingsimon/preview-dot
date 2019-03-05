@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace PreviewDot.ComInterop
+namespace PreviewDot.Common
 {
 	public static class Wia
 	{

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using PreviewDot.Common;
+using System;
 using System.Windows.Forms;
 
-namespace PreviewDot
+namespace PreviewDot.UI
 {
 	internal partial class ErrorControl : UserControl
 	{

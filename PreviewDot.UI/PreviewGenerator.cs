@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using PreviewDot.Common;
 
-namespace PreviewDot
+namespace PreviewDot.UI
 {
 	internal class PreviewGenerator : IPreviewGenerator
 	{
@@ -39,7 +41,7 @@ namespace PreviewDot
 					RedirectStandardError = true,
 					UseShellExecute = false,
 					CreateNoWindow = true,
-					Arguments = "-T" + _settings.RenderingFormat.ToString().ToLower()
+					Arguments = "-T" + _settings.RenderingFormat.ToLower()
 				},
 				EnableRaisingEvents = true
 			};
@@ -58,7 +60,7 @@ namespace PreviewDot
 
 				baseStream = process.StandardOutput.BaseStream;
 
-				await drawingContent.CopyToAsync(process.StandardInput.BaseStream);
+				await drawingContent.CopyToAsync(process.StandardInput.BaseStream).ConfigureAwait(false);
 				process.StandardInput.BaseStream.Close();
 			}
 
@@ -97,7 +99,7 @@ namespace PreviewDot
 				}
 
 				var outputStream = new MemoryStream();
-				image.Save(outputStream, _settings.RenderingFormat);
+				image.Save(outputStream, (ImageFormat)Enum.Parse(typeof(ImageFormat), _settings.RenderingFormat, true));
 				outputStream.Seek(0, SeekOrigin.Begin);
 				return outputStream;
 			}

@@ -6,10 +6,20 @@ namespace PreviewDot.ComInterop
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct RECT
 	{
-		public readonly int left;
-		public readonly int top;
-		public readonly int right;
-		public readonly int bottom;
+		public int left;
+		public int top;
+		public int right;
+		public int bottom;
 		public Rectangle ToRectangle() { return Rectangle.FromLTRB(left, top, right, bottom); }
+		public static RECT FromRectangle(Rectangle source)
+		{
+			return new RECT
+			{
+				left = source.Left,
+				top = source.Top,
+				right = source.Right,
+				bottom = source.Bottom
+			};
+		}
 	}
 }

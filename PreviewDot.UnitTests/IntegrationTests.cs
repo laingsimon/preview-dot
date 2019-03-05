@@ -5,6 +5,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using PreviewDot.Common;
+using PreviewDot.UI;
 
 namespace PreviewDot.UnitTests
 {
@@ -16,7 +18,7 @@ namespace PreviewDot.UnitTests
 		{
 			var settings = new PreviewSettings
 			{
-				RenderingFormat = ImageFormat.Png,
+				RenderingFormat = ImageFormat.Png.ToString(),
 				UpScaleForPrint = 4
 			};
 

@@ -1,4 +1,4 @@
-﻿namespace PreviewDot
+﻿namespace PreviewDot.UI
 {
 	partial class PreviewControl
 	{

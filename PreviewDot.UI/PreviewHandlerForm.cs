@@ -2,15 +2,24 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using PreviewDot.Common;
 
-namespace PreviewDot
+namespace PreviewDot.UI
 {
-	internal class PreviewHandlerForm : Form
+	internal class PreviewHandlerForm : Form, IPreviewHandlerForm
 	{
 		private readonly PreviewContext _context;
 		private readonly IPreviewGenerator _previewGenerator;
 
-		public PreviewHandlerForm(PreviewContext context, IPreviewGenerator previewGenerator)
+		public PreviewHandlerForm()
+			:this(new PreviewContext())
+		{ }
+
+		public PreviewHandlerForm(PreviewContext context)
+			: this(context, new PreviewGeneratorFactory(context.Settings))
+		{ }
+
+		public PreviewHandlerForm(PreviewContext context, IPreviewGeneratorFactory previewGenerator)
 		{
 			if (context == null)
 				throw new ArgumentNullException("context");
@@ -18,7 +27,7 @@ namespace PreviewDot
 				throw new ArgumentNullException("previewGenerator");
 
 			_context = context;
-			_previewGenerator = previewGenerator;
+			_previewGenerator = previewGenerator.Create();
 			context.PreviewRequired += _PreviewRequired;
 			context.ViewPortChanged += _ViewPortChanged;
 
@@ -69,6 +78,11 @@ namespace PreviewDot
 
 				try
 				{
+					if (preview.Length == 0)
+					{
+						throw new InvalidOperationException("No data was returned from preview application");
+					}
+
 					var image = Image.FromStream(preview);
 					_context.RecalculateDrawingSize(image.Size);
 					_InvokeOnUiThread(() => _ReplaceControl(new PreviewControl(image, _context)));
@@ -88,6 +102,11 @@ namespace PreviewDot
 			{
 				_InvokeOnUiThread(() => _ReplaceControl(new ErrorControl(exc)));
 			}
+		}
+
+		public PreviewContext GetContext()
+		{
+			return _context;
 		}
 
 		public void Reset()
