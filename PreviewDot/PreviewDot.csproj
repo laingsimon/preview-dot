@@ -118,7 +118,8 @@
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)copy_external.bat" "$(SolutionDir)" "$(TargetDir)"</PreBuildEvent>
+    <PreBuildEvent>taskkill /im "prevhost.exe" /f
+"$(ProjectDir)copy_external.bat" "$(SolutionDir)" "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

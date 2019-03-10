@@ -31,11 +31,14 @@ namespace PreviewDot.UI
 			if (!drawingContent.CanRead)
 				throw new ArgumentException("Stream must be readable", "drawingContent");
 
+			if (!File.Exists(_settings.DotApplicationPath))
+				throw new FileNotFoundException("Could not execute dot.exe at configured path, file not found", _settings.DotApplicationPath);
+
 			var process = new Process
 			{
 				StartInfo =
 				{
-					FileName = Path.Combine(_settings.DotApplicationPath),
+					FileName = _settings.DotApplicationPath,
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,

@@ -29,7 +29,7 @@ namespace PreviewDot.TestLauncher
 			var rect = RECT.FromRectangle(this.ClientRectangle);
 			PreviewHandler.SetWindow(this.Handle, rect);
 
-			var stream = new FileIStream(@"..\..\..\Sample file.gv");
+			var stream = new FileIStream(Environment.GetCommandLineArgs()[1]);
 			InitialiseWithStream.Initialize(stream, 0);
 
 			Task.Delay(500).ContinueWith(_ => this.Invoke(new MethodInvoker(() => _controller.DoPreview())));

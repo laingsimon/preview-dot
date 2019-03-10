@@ -84,6 +84,12 @@ namespace PreviewDot
 			catch (Exception exc)
 			{
 				Trace.TraceError("PreviewHandlerController.Initialize: {0}", exc);
+
+				var fileNotFoundException = exc as FileNotFoundException;
+				if (fileNotFoundException != null && !string.IsNullOrEmpty(fileNotFoundException.FusionLog))
+				{
+					Trace.TraceError("Fusion Log: " + fileNotFoundException.FusionLog);
+				}
 			}
 		}
 
