@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace PreviewDot
 {
-	internal interface IPreviewGenerator
-	{
-		Task<Stream> GeneratePreview(Stream drawingContent, FileDetail fileDetail, Size previewSize, CancellationToken token);
-	}
+    internal interface IPreviewGenerator
+    {
+        Task<Stream> GeneratePreview(Stream drawingContent, FileDetail fileDetail, Size previewSize, CancellationToken token);
+    }
 }

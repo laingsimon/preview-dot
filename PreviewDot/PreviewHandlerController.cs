@@ -9,203 +9,203 @@ using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
 namespace PreviewDot
 {
-	[ProgId("PreviewDot.PreviewHandlerController")]
-	[Guid(Installer.ControllerId)]
-	[ClassInterface(ClassInterfaceType.None)]
-	[ComVisible(true)]
-	public class PreviewHandlerController : IPreviewHandler, IOleWindow, IObjectWithSite, IInitializeWithStream
-	{
-		private readonly PreviewContext _context;
-		private readonly PreviewHandlerForm _previewForm;
+    [ProgId("PreviewDot.PreviewHandlerController")]
+    [Guid(Installer.ControllerId)]
+    [ClassInterface(ClassInterfaceType.None)]
+    [ComVisible(true)]
+    public class PreviewHandlerController : IPreviewHandler, IOleWindow, IObjectWithSite, IInitializeWithStream
+    {
+        private readonly PreviewContext _context;
+        private readonly PreviewHandlerForm _previewForm;
 
-		private IntPtr _previewWindowHandle;
-		private Stream _previewFileStream = Stream.Null;
-		private IPreviewHandlerFrame _frame;
-		private FileDetail _fileDetail;
+        private IntPtr _previewWindowHandle;
+        private Stream _previewFileStream = Stream.Null;
+        private IPreviewHandlerFrame _frame;
+        private FileDetail _fileDetail;
 
-		public PreviewHandlerController()
-		{
-			try
-			{
-				Logging.InstallListeners();
+        public PreviewHandlerController()
+        {
+            try
+            {
+                Logging.InstallListeners();
 
-				_context = new PreviewContext();
+                _context = new PreviewContext();
 
-				var previewGeneratorFactory = new PreviewGeneratorFactory(_context.Settings);
-				var generator = previewGeneratorFactory.Create();
+                var previewGeneratorFactory = new PreviewGeneratorFactory(_context.Settings);
+                var generator = previewGeneratorFactory.Create();
 
-				_previewForm = new PreviewHandlerForm(_context, generator);
-				_previewForm.Handle.GetHashCode(); //initialse the form
-			}
-			catch (Exception exc)
-			{
-				Trace.TraceError("PreviewHandlerController.ctor: {0}", exc);
-			}
-		}
+                _previewForm = new PreviewHandlerForm(_context, generator);
+                _previewForm.Handle.GetHashCode(); //initialse the form
+            }
+            catch (Exception exc)
+            {
+                Trace.TraceError("PreviewHandlerController.ctor: {0}", exc);
+            }
+        }
 
-		void IInitializeWithStream.Initialize(IStream pstream, uint grfMode)
-		{
-			try
-			{
+        void IInitializeWithStream.Initialize(IStream pstream, uint grfMode)
+        {
+            try
+            {
                 if (_previewForm == null)
                     return;
 
                 _previewForm.Reset();
-				_fileDetail = _GetPreviewFileDetail(pstream);
-				_previewFileStream = pstream.ToStream().ToMemoryStream();
-			}
-			catch (Exception exc)
-			{
-				Trace.TraceError("PreviewHandlerController.Initialize: {0}", exc);
-			}
-		}
+                _fileDetail = _GetPreviewFileDetail(pstream);
+                _previewFileStream = pstream.ToStream().ToMemoryStream();
+            }
+            catch (Exception exc)
+            {
+                Trace.TraceError("PreviewHandlerController.Initialize: {0}", exc);
+            }
+        }
 
-		private static FileDetail _GetPreviewFileDetail(IStream pstream)
-		{
-			STATSTG stats;
-			pstream.Stat(out stats, 0);
+        private static FileDetail _GetPreviewFileDetail(IStream pstream)
+        {
+            STATSTG stats;
+            pstream.Stat(out stats, 0);
 
-			return new FileDetail(
-				stats.pwcsName,
-				DateTime.FromFileTime(stats.mtime.dwHighDateTime));
-		}
+            return new FileDetail(
+                stats.pwcsName,
+                DateTime.FromFileTime(stats.mtime.dwHighDateTime));
+        }
 
-		void IPreviewHandler.SetWindow(IntPtr hwnd, ref RECT rect)
-		{
-			try
-			{
-                if (_previewForm == null)
-                    return;
-
-				_previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
-
-				_previewWindowHandle = hwnd;
-				_context.OnViewPortChanged(rect.ToRectangle());
-				WinApi.SetParent(_previewForm.Handle, _previewWindowHandle);
-			}
-			catch (Exception exc)
-			{
-				Trace.TraceError("PreviewHandlerController.SetWindow: {0}", exc);
-			}
-		}
-
-		void IPreviewHandler.SetRect(ref RECT rect)
-		{
-			try
-			{
+        void IPreviewHandler.SetWindow(IntPtr hwnd, ref RECT rect)
+        {
+            try
+            {
                 if (_previewForm == null)
                     return;
 
                 _previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
 
-				_context.OnViewPortChanged(rect.ToRectangle());
+                _previewWindowHandle = hwnd;
+                _context.OnViewPortChanged(rect.ToRectangle());
+                WinApi.SetParent(_previewForm.Handle, _previewWindowHandle);
+            }
+            catch (Exception exc)
+            {
+                Trace.TraceError("PreviewHandlerController.SetWindow: {0}", exc);
+            }
+        }
 
-				WinApi.SetParent(_previewForm.Handle, _previewWindowHandle); //is this required? - if not then remove _previewWindowHandle?
-			}
-			catch (Exception exc)
-			{
-				Trace.TraceError("PreviewHandlerController.SetRect: {0}", exc);
-			}
-		}
-
-		public void DoPreview()
-		{
-			try
-			{
+        void IPreviewHandler.SetRect(ref RECT rect)
+        {
+            try
+            {
                 if (_previewForm == null)
                     return;
 
                 _previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
 
-				if (_previewFileStream != Stream.Null)
-				{
-					_context.OnPreviewRequired(_previewFileStream, _fileDetail);
-					WinApi.SetParent(_previewForm.Handle, _previewWindowHandle); //is this required? - if not then remove _previewWindowHandle
-				}
-				else
-				{
-					Trace.TraceError("No File stream set");
-				}
-			}
-			catch (Exception exc)
-			{
-				Trace.TraceError("PreviewHandlerController.DoPreview: {0}", exc);
-			}
-		}
+                _context.OnViewPortChanged(rect.ToRectangle());
 
-		public void Unload()
-		{
-			_previewForm?.Invoke(new MethodInvoker(() => _previewForm.Reset()));
-		}
+                WinApi.SetParent(_previewForm.Handle, _previewWindowHandle); //is this required? - if not then remove _previewWindowHandle?
+            }
+            catch (Exception exc)
+            {
+                Trace.TraceError("PreviewHandlerController.SetRect: {0}", exc);
+            }
+        }
 
-		public void SetFocus()
-		{
-			_previewForm?.Invoke(new MethodInvoker(() => _previewForm.Focus()));
-		}
+        public void DoPreview()
+        {
+            try
+            {
+                if (_previewForm == null)
+                    return;
 
-		public void QueryFocus(out IntPtr phwnd)
-		{
-			var focusResult = IntPtr.Zero;
-			_previewForm?.Invoke(new MethodInvoker(() => WinApi.GetFocus()));
+                _previewForm.Invoke(new MethodInvoker(() => _previewForm.Show()));
 
-			phwnd = focusResult;
-		}
+                if (_previewFileStream != Stream.Null)
+                {
+                    _context.OnPreviewRequired(_previewFileStream, _fileDetail);
+                    WinApi.SetParent(_previewForm.Handle, _previewWindowHandle); //is this required? - if not then remove _previewWindowHandle
+                }
+                else
+                {
+                    Trace.TraceError("No File stream set");
+                }
+            }
+            catch (Exception exc)
+            {
+                Trace.TraceError("PreviewHandlerController.DoPreview: {0}", exc);
+            }
+        }
 
-		uint IPreviewHandler.TranslateAccelerator(ref MSG pmsg)
-		{
-			if (_previewForm != null && _frame != null)
-			{
-				var msg = new Message
-				{
-					HWnd = pmsg.hwnd,
-					LParam = pmsg.lParam,
-					Msg = pmsg.message,
-					WParam = pmsg.wParam
-				};
+        public void Unload()
+        {
+            _previewForm?.Invoke(new MethodInvoker(() => _previewForm.Reset()));
+        }
 
-				if (_previewForm.PreProcessMessage(ref msg))
-					return _frame.TranslateAccelerator(ref pmsg);
-			}
+        public void SetFocus()
+        {
+            _previewForm?.Invoke(new MethodInvoker(() => _previewForm.Focus()));
+        }
 
-			return WinApi.S_FALSE;
-		}
+        public void QueryFocus(out IntPtr phwnd)
+        {
+            var focusResult = IntPtr.Zero;
+            _previewForm?.Invoke(new MethodInvoker(() => WinApi.GetFocus()));
 
-		public void GetWindow(out IntPtr phwnd)
-		{
-			phwnd = _previewForm?.Handle ?? IntPtr.Zero;
-		}
+            phwnd = focusResult;
+        }
 
-		public void ContextSensitiveHelp(bool fEnterMode)
-		{
-			//not implemented
-		}
+        uint IPreviewHandler.TranslateAccelerator(ref MSG pmsg)
+        {
+            if (_previewForm != null && _frame != null)
+            {
+                var msg = new Message
+                {
+                    HWnd = pmsg.hwnd,
+                    LParam = pmsg.lParam,
+                    Msg = pmsg.message,
+                    WParam = pmsg.wParam
+                };
 
-		public void SetSite(object pUnkSite)
-		{
-			_frame = pUnkSite as IPreviewHandlerFrame;
-		}
+                if (_previewForm.PreProcessMessage(ref msg))
+                    return _frame.TranslateAccelerator(ref pmsg);
+            }
 
-		public void GetSite(ref Guid riid, out object ppvSite)
-		{
-			ppvSite = _frame;
-		}
+            return WinApi.S_FALSE;
+        }
 
-		[ComRegisterFunction]
-		public static void Register(Type type)
-		{
-			if (type != typeof(PreviewHandlerController))
-				return;
+        public void GetWindow(out IntPtr phwnd)
+        {
+            phwnd = _previewForm?.Handle ?? IntPtr.Zero;
+        }
 
-			Installer.RegisterPreviewHandler("DOT format diagram previewer", type);
-		}
+        public void ContextSensitiveHelp(bool fEnterMode)
+        {
+            //not implemented
+        }
 
-		[ComUnregisterFunction]
-		public static void Unregister(Type type)
-		{
-			if (type != typeof(PreviewHandlerController))
-				return;
+        public void SetSite(object pUnkSite)
+        {
+            _frame = pUnkSite as IPreviewHandlerFrame;
+        }
 
-			Installer.UnregisterPreviewHandler(type);
-		}
-	}
+        public void GetSite(ref Guid riid, out object ppvSite)
+        {
+            ppvSite = _frame;
+        }
+
+        [ComRegisterFunction]
+        public static void Register(Type type)
+        {
+            if (type != typeof(PreviewHandlerController))
+                return;
+
+            Installer.RegisterPreviewHandler("DOT format diagram previewer", type);
+        }
+
+        [ComUnregisterFunction]
+        public static void Unregister(Type type)
+        {
+            if (type != typeof(PreviewHandlerController))
+                return;
+
+            Installer.UnregisterPreviewHandler(type);
+        }
+    }
 }

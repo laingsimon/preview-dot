@@ -2,11 +2,11 @@
 
 namespace PreviewDot
 {
-	internal partial class LoadingControl : UserControl
-	{
-		public LoadingControl()
-		{
-			InitializeComponent();
-		}
-	}
+    internal partial class LoadingControl : UserControl
+    {
+        public LoadingControl()
+        {
+            InitializeComponent();
+        }
+    }
 }
