@@ -11,13 +11,15 @@ namespace PreviewDot
     internal class PreviewGenerator : IPreviewGenerator
     {
         private readonly PreviewSettings _settings;
+        private readonly StreamHelper _streamHelper;
 
-        public PreviewGenerator(PreviewSettings settings)
+        public PreviewGenerator(PreviewSettings settings, StreamHelper streamHelper = null)
         {
             if (settings == null)
                 throw new ArgumentNullException("settings");
 
             _settings = settings;
+            _streamHelper = streamHelper ?? new StreamHelper();
         }
 
         public async Task<Stream> GeneratePreview(Stream drawingContent, FileDetail fileDetail, Size previewSize, CancellationToken token)
@@ -58,7 +60,8 @@ namespace PreviewDot
 
                 baseStream = process.StandardOutput.BaseStream;
 
-                await drawingContent.CopyToAsync(process.StandardInput.BaseStream);
+                var drawingStreamSansBom = _streamHelper.ExcludeBomFromStream(drawingContent);
+                await drawingStreamSansBom.CopyToAsync(process.StandardInput.BaseStream);
                 process.StandardInput.BaseStream.Close();
             }
 
