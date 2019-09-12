@@ -53,6 +53,7 @@ namespace PreviewDot
                 _previewForm.Reset();
                 _fileDetail = _GetPreviewFileDetail(pstream);
                 _previewFileStream = pstream.ToStream().ToMemoryStream();
+                Marshal.ReleaseComObject(pstream);
             }
             catch (Exception exc)
             {
@@ -130,6 +131,13 @@ namespace PreviewDot
             catch (Exception exc)
             {
                 Trace.TraceError("PreviewHandlerController.DoPreview: {0}", exc);
+            }
+            finally
+            {
+                if (_previewFileStream != Stream.Null)
+                {
+                    _previewFileStream.Dispose();
+                }
             }
         }
 
