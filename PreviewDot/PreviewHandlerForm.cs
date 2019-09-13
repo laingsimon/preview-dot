@@ -65,17 +65,24 @@ namespace PreviewDot
 
                 _context.DrawingSize = new Size(1000, 1000);
                 var previewSize = _context.GetPreviewSize();
-                var preview = await drawing.GeneratePreview(_previewGenerator, previewSize, _context.TokenSource.Token);
+                var previewResult = await drawing.GeneratePreview(_previewGenerator, previewSize, _context.TokenSource.Token);
+
+                if (!previewResult.Success)
+                {
+                    _InvokeOnUiThread(() => _ReplaceControl(new ErrorControl(previewResult.ErrorMessage)));
+                    return;
+                }
 
                 try
                 {
-                    var image = Image.FromStream(preview);
+                    var image = Image.FromStream(previewResult.ImageData);
                     _context.RecalculateDrawingSize(image.Size);
                     _InvokeOnUiThread(() => _ReplaceControl(new PreviewControl(image, _context)));
                 }
                 catch (Exception exc)
                 {
-                    using (var reader = new StreamReader(preview))
+                    previewResult.ImageData.Seek(0, SeekOrigin.Begin);
+                    using (var reader = new StreamReader(previewResult.ImageData))
                     {
                         var responseBody = reader.ReadToEnd();
                         throw new InvalidOperationException("Invalid image data returned: " + responseBody, exc);
@@ -86,7 +93,7 @@ namespace PreviewDot
             { }
             catch (Exception exc)
             {
-                _InvokeOnUiThread(() => _ReplaceControl(new ErrorControl(exc)));
+                _InvokeOnUiThread(() => _ReplaceControl(new ErrorControl(exc.ToString())));
             }
         }
 

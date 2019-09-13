@@ -22,7 +22,7 @@ namespace PreviewDot
             _fileDetail = fileDetail;
         }
 
-        public async Task<Stream> GeneratePreview(IPreviewGenerator generator, Size previewSize, CancellationToken token)
+        public async Task<GeneratePreviewResult> GeneratePreview(IPreviewGenerator generator, Size previewSize, CancellationToken token)
         {
             if (generator == null)
                 throw new ArgumentNullException("generator");
