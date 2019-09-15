@@ -28,9 +28,9 @@ namespace PreviewDot.UnitTests
 
                 var preview = await drawing.GeneratePreview(generator, new Size(100, 100), CancellationToken.None);
 
-                Assert.That(preview.Length, Is.GreaterThan(0));
+                Assert.That(preview.ImageData.Length, Is.GreaterThan(0));
                 Assert.That(
-                    () => Image.FromStream(preview),
+                    () => Image.FromStream(preview.ImageData),
                     Throws.Nothing);
             }
         }
