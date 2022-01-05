@@ -12,7 +12,7 @@ A drawing previewer for [DOT format](https://en.wikipedia.org/wiki/DOT_(graph_de
    * download the [latest release](https://github.com/laingsimon/preview-dot/releases)
    * run PreviewDot.msi
 * To uninstall 
-   * Remove the program from the windows Programs ans Features control panel
+   * Remove the program from the windows Programs and Features control panel
    * Uninstall GraphViz manually
 
 ### Features
